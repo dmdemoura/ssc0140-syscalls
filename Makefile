@@ -20,14 +20,20 @@ bad_su: src/bad_su.o
 
 install: all
 	@echo Copying headers and binaries to initramfs ...
-	@cp -v hello_world initramfs/bin/	
-	@cp -v bad_su initramfs/bin/	
+	@cp -v include/* initramfs/usr/include
+	@cp -v hello_world initramfs/usr/bin/	
+	@cp -v bad_su initramfs/usr/bin/	
 
 initramfs:
 	@echo Packaging initramfs ...
-	@cd initramfs && find . -print0\
-	 | cpio --null -ov --format=newc -R 0:0\
-	 | gzip -9 > ../initramfs-scc0140.cpio.gz
+	@cd initramfs && find . -not -path './home/*' -print0\
+	 | cpio --null -ov --format=newc -R 0:0 -F ../initramfs-scc0140.cpio
+	@cd initramfs && find . -path './home/amanda*' -print0\
+	 | cpio --null -Aov --format=newc -R 1000:1000 -F ../initramfs-scc0140.cpio
+	@cd initramfs && find . -path './home/irwaen*' -print0\
+	 | cpio --null -Aov --format=newc -R 1001:1001 -F ../initramfs-scc0140.cpio
+	@echo Compressing initramfs ...
+	@cat initramfs-scc0140.cpio | gzip -9 > initramfs-scc0140.cpio.gz
 
 run:
 	@echo Running kernel with qemu ...
