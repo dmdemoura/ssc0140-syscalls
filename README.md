@@ -15,20 +15,20 @@ my system without problems. Later, I also got it running on QEMU so it's easier
 to test.
 
 1. [Syscalls](#Syscalls)
-	1. [sys_hello_world()](#sys_hello_world())
-	2. [sys_bad_setuid()](#sys_bad_setuid())
-2. [Userspace Wrapper Library](#Userspace_Wrapper_Library)
-	1. [hello_world()](#hello_world())
-	2. [bad_setuid()](#bad_setuid())
+	1. [sys_hello_world()](#sys-hello-world())
+	2. [sys_bad_setuid()](#sys-bad-setuid())
+2. [Userspace Wrapper Library](#Userspace-Wrapper-Library)
+	1. [hello_world()](#hello-world())
+	2. [bad_setuid()](#bad-setuid())
 3. [Applications](#Applications)
-4. [Download the sources](#Download_the_sources)
-5. [Configure the Kernel](#Configure_the_Kernel)
-6. [Build the Kernel](#Build_the_Kernel)
-7. [Install the Kernel](#Install_the_Kernel)
-	1. [Run in a virtual machine](#Run_in_a_virtual_machine)
-	1. [Run on real hardware](#Run_on_real_hardware)
-8. [Build the Applications](#Build_the_Applications)
-9. [Test the Applications](#Test_the_Applications)
+4. [Download the sources](#Download-the-sources)
+5. [Configure the Kernel](#Configure-the-Kernel)
+6. [Build the Kernel](#Build-the-Kernel)
+7. [Install the Kernel](#Install-the-Kernel)
+	1. [Run in a virtual machine](#Run-in-a-virtual-machine)
+	1. [Run on real hardware](#Run-on-real-hardware)
+8. [Build the Applications](#Build-the-Applications)
+9. [Test the Applications](#Test-the-Applications)
 
 ## Syscalls
 
