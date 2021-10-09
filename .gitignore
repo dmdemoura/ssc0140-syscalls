@@ -1,0 +1,12 @@
+.cache/
+compile_commands.json
+src/*.o
+hello_world
+bad_su
+initramfs-scc0140.cpio.gz
+initramfs/linuxrc
+initramfs/bin/*
+initramfs/sbin/*
+initramfs/usr/include
+initramfs/usr/bin/*
+initramfs/usr/sbin/*
